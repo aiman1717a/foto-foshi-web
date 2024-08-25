@@ -27,15 +27,11 @@ class PostController extends Controller
     {
         Gate::authorize('viewAny', Post::class);
 
-       /* if (! Gate::allows('viewAny', Post::class)) {
-            abort(403);
-        }*/
-
         $validated = $request->validate([
-            'cursor' => 'required',
+            'cursor' => 'nullable',
         ]);
 
-        $posts =  Post::query()->orderBy('created_at', 'DESC')->cursorPaginate(8);
+        $posts =  Post::query()->orderBy('created_at', 'DESC')->cursorPaginate(9);
         foreach ($posts as $post){
             $post->getMedia('images');
         }

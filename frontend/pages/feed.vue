@@ -1,25 +1,6 @@
 <template>
   <div class="md:container md:mx-auto p-5 flex flex-col relative">
     <h1 class="text-2xl font-bold mb-5">Feed</h1>
-<!--    <template v-if="!isPending">-->
-<!--      <template v-if="posts.length === 0">
-
-        <LottieAnimation
-            :animation-data="NotFoundJSON"
-            :auto-play="true"
-            :loop="true"
-            :speed="1"
-            ref="anim" class="!w-96 mx-auto"></LottieAnimation>
-        <p class="mx-auto">No Fotos Found</p>
-
-        <nuxt-link to="/upload" class="mx-auto mt-5">
-          <Button class="!bg-primary !text-white !border-none" icon="pi pi-camera" label="Post a Photo"></Button>
-        </nuxt-link>
-      </template>
-      <template v-else>-->
-<!--        <div class="grid grid-cols-2 md:grid-cols-3 gap-5">-->
-
-
       <ClientOnly>
         <div class="grid grid-cols-3 gap-5 my-5" v-if="isFetching && !isFetchingNextPage">
           <template v-for="i in 9">
@@ -54,7 +35,7 @@
                   <template v-if="items[virtualRow.index]">
                     <template v-if="items[virtualRow.index][virtualColumn.index]">
                       <nuxt-link :to="`post/${items[virtualRow.index][virtualColumn.index].id}`" class="rounded-xl overflow-hidden aspect-square">
-                        <NuxtImg :src="items[virtualRow.index][virtualColumn.index].url" class="h-full w-full object-cover overflow-hidden" placeholder quality="50" loading="lazy" densities="x1 x2" sizes="100vw sm:100vw"></NuxtImg>
+                        <NuxtImg :src="items[virtualRow.index][virtualColumn.index].url" class="h-full w-full object-cover overflow-hidden" quality="50" loading="lazy" densities="x1 x2" sizes="100vw sm:100vw"></NuxtImg>
                       </nuxt-link>
                     </template>
                   </template>
@@ -99,9 +80,9 @@
             </Button>
           </template>
           <template v-else>
-            <template v-if="items.length > 8">
-              <p>Nothing more to load</p>
-            </template>
+<!--            <template v-if="items.length > 9">-->
+<!--              <p>Nothing more to load</p>-->
+<!--            </template>-->
           </template>
         </div>
       </ClientOnly>
@@ -147,7 +128,11 @@ const {
   queryFn: async ({queryKey, pageParam = 0}) => {
     try {
       const [_key] = queryKey;
-      return await $api(`/api/posts?cursor=${pageParam}`, {
+      let url = `/api/posts`
+      if(pageParam !== 0){
+        url = `/api/posts?cursor=${pageParam}`
+      }
+      return await $api(url, {
         method: 'GET',
       })
     }catch (e) {
@@ -156,6 +141,8 @@ const {
     }
   },
   getNextPageParam: (lastPage, pages) => {
+    console.log(lastPage)
+    console.log(lastPage.next_cursor)
     return lastPage.next_cursor || undefined
   },
   staleTime: 0,
@@ -200,7 +187,6 @@ const rowVirtualizerOptions = computed(() => {
       return (width / cols.value) - gap.value
     },
     gap:gap.value,
-    // gap: 20,
     overscan: 5,
   }
 })
@@ -249,44 +235,14 @@ onMounted(() => {
       // Check if scrolled to the bottom of the parent element
       if (parentRect.bottom <= (viewportHeight + 500)) {
         if(hasNextPage && !isFetchingNextPage.value) {
-          // fetchNextPage()
+          fetchNextPage()
         }else{
-          // console.log('not fetching')
+          // console.log('not fetching next page')
         }
       }
     }
   })
 })
-
-
-/*const ltItem = computed(() => {
-  console.log(...virtualRows.value)
-  const  [lastItem] = [...virtualRows.value].reverse()
-  if (!lastItem) {
-    return
-  }
-  return lastItem
-})*/
-
-/*
-watchEffect(() => {
-  const [lastItem] = [...virtualRows.value].reverse()
-
-  if (!lastItem) {
-    return
-  }
-
-
-  console.log(lastItem)
-  console.log(items.value.length)
-  if (lastItem.index >= items.value.length && hasNextPage && !isFetchingNextPage.value) {
-    console.log('fetching next Page')
-    // fetchNextPage()
-  }else{
-    console.log('not fetching')
-  }
-})
-*/
 
 function getMedia(post: any){
   if(post){

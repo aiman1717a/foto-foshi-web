@@ -45,3 +45,7 @@ Run the database migrations (**Set the database connection in .env before migrat
 Start the local development server
 
     php artisan serve
+
+Run the Database seeder. It will create 1 user and 1000 posts(optional)
+
+    php artisan db:seed

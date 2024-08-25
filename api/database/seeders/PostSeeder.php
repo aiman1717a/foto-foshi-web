@@ -18,7 +18,7 @@ class PostSeeder extends Seeder
     {
         $user = User::query()->where('email', 'test@gmail.com')->first();
         if($user){
-            $noOfPosts = 1000;
+            $noOfPosts = 500;
             for ($i = 0; $i < $noOfPosts; $i++) {
                 $path = Storage::disk('local')->path('images/image-' . rand(1,5) . '.jpg');
                 $media = [

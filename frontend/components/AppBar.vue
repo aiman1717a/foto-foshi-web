@@ -5,7 +5,7 @@
         <img :src="Logo" alt="Image not found" class="w-36">
       </nuxt-link>
 
-      <nuxt-link v-if="loggedInUser" to="/upload">
+      <nuxt-link to="/#">
         <Button rounded icon="pi pi-cog" severity="secondary"></Button>
       </nuxt-link>
 
@@ -13,12 +13,13 @@
         <Button class="!bg-primary !text-white !border-none" icon="pi pi-camera" label="Post a Photo"></Button>
       </nuxt-link>
 
-
       <ClientOnly>
         <template  v-if="loggedInUser">
           <Menu as="div" class="relative">
-            <MenuButton class="flex flex-row justify-center items-center gap-2">
-              <i class="pi pi-user rounded-full bg-slate-100"></i>
+            <MenuButton class="flex flex-row justify-center items-center gap-2 rounded-xl px-2">
+              <div class="rounded-full bg-slate-100 w-10 h-10 flex flex-col justify-center items-center">
+                <i class="pi pi-user w-5 h-5 "></i>
+              </div>
               <p>{{loggedInUser.name}}</p>
               <i class="pi pi-chevron-down"></i>
             </MenuButton>

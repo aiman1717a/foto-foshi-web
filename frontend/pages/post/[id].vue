@@ -1,9 +1,9 @@
 <template>
   <div class="max-w-5xl md:mx-auto p-5 flex flex-col justify-center items-center pb-10" v-if="post">
-    <div class="rounded-xl overflow-hidden aspect-video">
+    <div class="rounded-xl overflow-hidden relative w-full">
       <template v-if="getMedia(post).length > 0">
         <viewer :images="getMedia(post)">
-          <img :src="getMedia(post)[0].original_url" alt="Image Not Found" class="w-full h-full object-cover">
+          <img :src="getMedia(post)[0].original_url" alt="Image Not Found" class="aspect-video w-full h-fit object-cover object-center cursor-pointer">
         </viewer>
       </template>
     </div>
