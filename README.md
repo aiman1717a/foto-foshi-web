@@ -1,5 +1,5 @@
 # FotoFoshi
-This project is seperated into 2 mono repos.
+This project is seperated into 2 mono repos. Clone this whole project into the projects folder
 
 | Repo     | Description        |
 |----------|--------------------|
